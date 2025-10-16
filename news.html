@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>News | Redwan Ahmed Utsab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="icon" href="https://redwanahmedutsab.github.io/logo/favicon.ico"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4caf50;
+        }
+
+        a:hover {
+            color: #333;
+        }
+
+        /* Navbar */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav .logo a {
+            font-weight: 600;
+            color: #4caf50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li a {
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .nav li a.active,
+        .nav li a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background: #4caf50;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Overlay & Drawer */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 1500;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: #fff;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 2001;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .drawer li {
+            margin: 10px 0;
+        }
+
+        .drawer a {
+            display: block;
+            padding: 12px 25px;
+            font-weight: 500;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .drawer a.active,
+        .drawer a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav ul {
+                display: none;
+            }
+        }
+
+        /* Main content */
+        .main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .post-single {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-header p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .news-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background: #fdfdfd;
+            border-left: 5px solid #4caf50;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .news-item h3 {
+            margin-top: 0;
+            color: #222;
+            font-size: 1.2rem;
+        }
+
+        .news-item p {
+            margin: 0.5rem 0;
+        }
+
+        .news-item .meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-item .meta i {
+            color: #4caf50;
+        }
+
+        .news-item i {
+            color: #4caf50;
+            margin-right: 6px;
+        }
+
+        /* Gallery Styling */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 500px) {
+            .gallery img {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="nav">
+    <div class="logo">
+        <a href="https://redwanahmedutsab.github.io/">
+            <img src="https://redwanahmedutsab.github.io/logo/favicon.ico" width="18" height="18"/>
+            Redwan Ahmed Utsab
+        </a>
+    </div>
+    <div class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></div>
+    <ul>
+        <li><a href="https://redwanahmedutsab.github.io">Home</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/experience">Experience</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/research">Research</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/news" class="active">News</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/project">Projects</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/blog">Blogs</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/resume">Resume</a></li>
+    </ul>
+</header>
+
+<div class="drawer" id="drawer">
+    <ul>
+        <li><a href="https://redwanahmedutsab.github.io">Home</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/experience">Experience</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/research">Research</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/news" class="active">News</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/project">Projects</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/blog">Blogs</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/resume">Resume</a></li>
+    </ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+    <article class="post-single">
+        <header class="post-header">
+            <h1 class="post-title">
+                News <i class="fa-solid fa-newspaper fa-flip"></i>
+            </h1>
+            <p>Highlights of my achievements, recognitions, and experiences from academic and professional
+                milestones.</p>
+        </header>
+
+
+        <div class="news-item">
+            <h3><i class="fa-solid fa-gift"></i> Winner — Pathao Quiz Competition</h3>
+            <p class="meta"><i class="fa-solid fa-clock"></i> November 2024</p>
+            <p>Thrilled to receive the <b>award for winning</b> the quiz competition organized by <b>Pathao</b> in
+                collaboration with <b>UIU APP Forum</b> and <b>CDIP</b>! 🚴‍♂️✨</p>
+            <div class="gallery">
+                <img src="images/pathao1.jpg" alt="Pathao Event 1"/>
+                <img src="images/pathao2.jpg" alt="Pathao Event 2"/>
+                <img src="images/pathao3.jpg" alt="Pathao Event 3"/>
+                <img src="images/pathao4.jpg" alt="Pathao Event 4"/>
+                <img src="images/pathao5.jpg" alt="Pathao Event 5"/>
+            </div>
+        </div>
+        <div class="news-item">
+            <h3><i class="fa-solid fa-award"></i> 2nd Runner-Up — Final Year Design Project Competition</h3>
+            <p class="meta"><i class="fa-solid fa-clock"></i> January 2025</p>
+            <p>Honored to become the <b>2nd Runner-Up</b> in the <b>Final Year Design Project Competition</b> at UIU!
+                Our research focused on <b>modifying large language model architectures</b> to reduce space and improve
+                computational efficiency. ⚙️💡</p>
+            <div class="gallery">
+                <img src="images/fyp1.jpg" alt="FYP Competition 1"/>
+                <img src="images/fyp2.jpg" alt="FYP Competition 2"/>
+                <img src="images/fyp3.jpg" alt="FYP Competition 3"/>
+                <img src="images/fyp4.jpg" alt="FYP Competition 4"/>
+                <img src="images/fyp5.jpg" alt="FYP Competition 5"/>
+            </div>
+        </div>
+        <div class="news-item">
+            <h3><i class="fa-solid fa-medal"></i> 1st Runner-Up — System Analysis & Design Competition</h3>
+            <p class="meta"><i class="fa-solid fa-clock"></i> October 2024</p>
+            <p>Celebrating a proud moment 🏆 — received the <b>Champions Crest</b> as the <b>1st Runner-Up</b> in the <b>System
+                Analysis & Design Competition</b> at UIU.</p>
+            <div class="gallery">
+                <img src="images/sad1.jpg" alt="SAD Competition 1"/>
+                <img src="images/sad2.jpg" alt="SAD Competition 2"/>
+                <img src="images/sad3.jpg" alt="SAD Competition 3"/>
+                <img src="images/sad4.jpg" alt="SAD Competition 4"/>
+                <img src="images/sad5.jpg" alt="SAD Competition 5"/>
+            </div>
+        </div>
+        <div class="news-item">
+            <h3><i class="fa-solid fa-handshake"></i> 10 Minute School Meetup with Ayman Vaiya & Munzereen Apu</h3>
+            <p class="meta"><i class="fa-solid fa-clock"></i> October 2023</p>
+            <p>Heartfelt gratitude for the wonderful meetup at <b>10 Minute School</b>, where we met <b>Ayman Sadiq</b>
+                and <b>Munzereen Shifa</b>. Thank you for your inspiring leadership and commitment to making education
+                accessible for all. 🚀</p>
+            <div class="gallery">
+                <img src="images/10ms1.jpg" alt="10 Minute School 1"/>
+                <img src="images/10ms2.jpg" alt="10 Minute School 2"/>
+                <img src="images/10ms3.jpg" alt="10 Minute School 3"/>
+                <img src="images/10ms4.jpg" alt="10 Minute School 4"/>
+                <img src="images/10ms5.jpg" alt="10 Minute School 5"/>
+            </div>
+        </div>
+        <div class="news-item">
+            <h3><i class="fa-solid fa-trophy"></i> Champion — Database Management System Project Competition</h3>
+            <p class="meta"><i class="fa-solid fa-clock"></i> August 2023</p>
+            <p>Overjoyed to announce that our team became the <b>Champion</b> of the Database Management System project
+                competition! 🏆💻 Teamwork truly makes the dream work — grateful to my incredible teammates <b>Koushik
+                    Ahmmed Ovi</b> and <b>Istiak Ahamed Anik</b>.</p>
+            <div class="gallery">
+                <img src="images/dbms1.jpg" alt="DBMS Competition 1"/>
+                <img src="images/dbms2.jpg" alt="DBMS Competition 2"/>
+                <img src="images/dbms3.jpg" alt="DBMS Competition 3"/>
+                <img src="images/dbms4.jpg" alt="DBMS Competition 4"/>
+                <img src="images/dbms5.jpg" alt="DBMS Competition 5"/>
+            </div>
+        </div>
+    </article>
+</main>
+
+<script>
+    const toggle = document.getElementById("menu-toggle");
+    const drawer = document.getElementById("drawer");
+    const overlay = document.getElementById("overlay");
+
+    function closeDrawer() {
+        drawer.classList.remove("open");
+        overlay.classList.remove("active");
+        toggle.classList.remove("active");
+    }
+
+    toggle.addEventListener("click", () => {
+        drawer.classList.toggle("open");
+        overlay.classList.toggle("active");
+        toggle.classList.toggle("active");
+    });
+
+    overlay.addEventListener("click", closeDrawer);
+</script>
+</body>
+</html>

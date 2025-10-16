@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Redwan Ahmed Utsab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" href="https://redwanahmedutsab.github.io/logo/favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4caf50;
+        }
+
+        a:hover {
+            color: #333;
+        }
+
+        /* Navbar */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav .logo a {
+            font-weight: 600;
+            color: #4caf50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li a {
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .nav li a.active, .nav li a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background: #4caf50;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Overlay & Drawer */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 1500;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: #fff;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 2001;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .drawer li {
+            margin: 10px 0;
+        }
+
+        .drawer a {
+            display: block;
+            padding: 12px 25px;
+            font-weight: 500;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .drawer a.active, .drawer a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav ul {
+                display: none;
+            }
+        }
+
+        /* Main container & projects */
+        .main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .post-single {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-header p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .project {
+            margin-bottom: 2rem;
+        }
+
+        .project h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project h4 {
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .project img {
+            max-width: 100%; /* Ensure image doesn't overflow */
+            height: auto; /* Maintain aspect ratio */
+            display: block;
+            margin: 20px auto; /* Center horizontally with padding */
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .project hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+
+        .project code {
+            background: #f2f2f2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="nav">
+    <div class="logo">
+        <a href="https://redwanahmedutsab.github.io/">
+            <img src="https://redwanahmedutsab.github.io/logo/favicon.ico" width="18" height="18">
+            Redwan Ahmed Utsab
+        </a>
+    </div>
+    <div class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></div>
+    <ul>
+        <li><a href="https://redwanahmedutsab.github.io">Home</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/experience">Experience</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/research">Research</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/news">News</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/project" class="active">Projects</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/blog">Blogs</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/resume">Resume</a></li>
+    </ul>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="drawer" id="drawer">
+    <ul>
+        <li><a href="https://redwanahmedutsab.github.io">Home</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/experience">Experience</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/research">Research</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/news">News</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/project" class="active">Projects</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/blog">Blogs</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/resume">Resume</a></li>
+    </ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<!-- Main Projects -->
+<main class="main">
+    <article class="post-single">
+        <header class="post-header">
+            <h1 class="post-title">Projects <i class="fa-solid fa-folder fa-flip"></i></h1>
+            <p>Highlights of my projects. For a full list, visit my <a href="https://github.com/redwanahmedutsab"
+                                                                       target="_blank">GitHub</a>.</p>
+        </header>
+
+        <hr>
+
+        <!-- SmartUIU Project -->
+        <section class="project">
+            <h2>SmartUIU - University Management Platform</h2>
+            <img src="/images/project/smartuiu.png" alt="SmartUIU" class="responsive-img">
+            <h4>Feb 2023 - Present <a href="https://github.com/redwanahmedutsab/SmartUIU"><i
+                    class="fa-brands fa-github fa-lg"></i></a></h4>
+            <p><em>An all-in-one campus platform for UIU students.</em></p>
+            <p>SmartUIU helps students with events, marketplace, lost & found, thesis/project partners, home finder,
+                notifications, dashboard, blogs, and course materials.</p>
+            <p>🏷️ <code>React</code> <code>Django</code> <code>MySQL</code> <code>Full Stack</code> <code>Campus
+                Platform</code></p>
+            <hr>
+        </section>
+        <!-- Add more projects below similarly -->
+    </article>
+</main>
+
+<script>
+    const toggle = document.getElementById('menu-toggle');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+
+    function closeDrawer() {
+        drawer.classList.remove('open');
+        overlay.classList.remove('active');
+        toggle.classList.remove('active');
+    }
+
+    toggle.addEventListener('click', () => {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('active');
+        toggle.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', closeDrawer);
+</script>
+</body>
+</html>

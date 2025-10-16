@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | Redwan Ahmed Utsab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" href="https://redwanahmedutsab.github.io/logo/favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4caf50;
+        }
+
+        a:hover {
+            color: #333;
+        }
+
+        /* Navbar */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav .logo a {
+            font-weight: 600;
+            color: #4caf50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li a {
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .nav li a.active, .nav li a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background: #4caf50;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Overlay & Drawer */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 1500;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: #fff;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 2001;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .drawer li {
+            margin: 10px 0;
+        }
+
+        .drawer a {
+            display: block;
+            padding: 12px 25px;
+            font-weight: 500;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .drawer a.active, .drawer a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav ul {
+                display: none;
+            }
+        }
+
+        /* Main content */
+        .main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Post container */
+        .post-single {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-header p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Research sections attached style */
+        .research-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 0; /* all cards flush */
+            margin: 0; /* remove gap */
+            box-shadow: none; /* no shadow */
+            border-top: 1px solid #e0e0e0; /* separator line */
+        }
+
+        .research-card:first-child {
+            border-top: none; /* no line on first card */
+        }
+
+        .research-header h2 {
+            font-size: 1.5rem;
+            color: #2e7d32;
+            margin-bottom: 0.4rem;
+        }
+
+        .research-header p {
+            margin: 0.2rem 0;
+        }
+
+        .research-image {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .research-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .authors, .venue {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .abstract {
+            margin: 1rem 0;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        .research-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 0.6rem;
+        }
+
+        .research-meta a {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .research-meta a:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        .tags {
+            margin-top: 10px;
+        }
+
+        .tags code {
+            background: #f0f7f4;
+            color: #00796b;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .research-card {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="nav">
+    <div class="logo">
+        <a href="https://redwanahmedutsab.github.io/">
+            <img src="https://redwanahmedutsab.github.io/logo/favicon.ico" width="18" height="18">
+            Redwan Ahmed Utsab
+        </a>
+    </div>
+    <div class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></div>
+    <ul>
+        <li><a href="https://redwanahmedutsab.github.io">Home</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/experience">Experience</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/research" class="active">Research</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/news">News</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/project">Projects</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/blog">Blogs</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/resume">Resume</a></li>
+    </ul>
+</header>
+
+<div class="drawer" id="drawer">
+    <ul>
+        <li><a href="https://redwanahmedutsab.github.io">Home</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/experience">Experience</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/research" class="active">Research</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/news">News</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/project">Projects</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/blog">Blogs</a></li>
+        <li><a href="https://redwanahmedutsab.github.io/resume">Resume</a></li>
+    </ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+    <article class="post-single">
+        <header class="post-header">
+            <h1 class="post-title">Research <i class="fa-solid fa-flask fa-bounce"></i></h1>
+            <p>Explore my academic and independent research works — spanning artificial intelligence, data science,
+                computer vision, and computational biology.</p>
+        </header>
+
+        <!-- Research Card 1 -->
+        <section class="research-card">
+            <div class="research-header">
+                <h2>CCTV Footage: Live Threat & Suspicious Movement Detection</h2>
+                <p class="authors"><strong>Authors:</strong> Redwan Ahmed Utsab, Bushra Jannat, Azizur Rahman Anik</p>
+                <p class="venue"><i class="fa-solid fa-university"></i> Not yet published</p>
+            </div>
+
+            <div class="research-image">
+                <img src="images/experience/uiu.png" alt="CCTV Footage Analysis">
+            </div>
+
+            <p class="abstract">
+                <strong>Abstract:</strong> This research introduces a deep learning-based system for real-time detection
+                of suspicious activities in CCTV footage. Leveraging Convolutional Neural Networks (CNNs) and motion
+                tracking algorithms, the system can identify potential security threats such as loitering, trespassing,
+                and unauthorized access. The approach incorporates data augmentation and temporal consistency checks to
+                ensure high accuracy in diverse environmental conditions. Initial tests demonstrate a detection accuracy
+                exceeding 94%, with low false-positive rates, making it suitable for security-critical environments.
+            </p>
+            <div class="research-meta">
+                <a href="#"><i class="fa-solid fa-file-pdf"></i> View Paper (PDF)</a>
+                <a href="#"><i class="fa-solid fa-link"></i> DOI: N/A</a>
+            </div>
+            <div class="tags">
+                <code>Deep Learning</code>
+                <code>Computer Vision</code>
+                <code>Security Systems</code>
+                <code>CNN</code>
+                <code>Real-Time Detection</code>
+            </div>
+        </section>
+
+        <!-- Research Card 2 -->
+        <section class="research-card">
+            <div class="research-header">
+                <h2>Retrieving Information from Long Text by Optimizing Transformer Architecture</h2>
+                <p class="authors"><strong>Authors:</strong> Redwan Ahmed Utsab, Nafi Sadman Khan, Rafi Abrar Kabir, Md.
+                    Koushik Ahmmed, Junaid Rahman Mokit, Dr. Md. Nurul Huda, Mr. Nahid Hossain</p>
+                <p class="venue"><i class="fa-solid fa-university"></i> Not yet published</p>
+            </div>
+
+            <div class="research-image">
+                <img src="images/experience/uiu.png" alt="Transformer Optimization">
+            </div>
+
+            <p class="abstract">
+                <strong>Abstract:</strong> Large Language Models (LLMs) based on Transformer architecture have
+                revolutionized NLP tasks but face challenges with long input sequences due to high memory consumption
+                and inconsistent attention distribution. This research investigates architectural optimizations to
+                enhance scalability and accuracy for long-context understanding. Techniques such as linear attention
+                mechanisms, recurrent modules, and state-space models (SSMs) are explored. Results demonstrate improved
+                contextual retention and inference efficiency, making the model suitable for complex document analysis,
+                summarization, and content retrieval tasks.
+            </p>
+            <div class="research-meta">
+                <a href="#"><i class="fa-solid fa-file-pdf"></i> View Paper (PDF)</a>
+                <a href="#"><i class="fa-solid fa-link"></i> DOI: N/A</a>
+            </div>
+            <div class="tags">
+                <code>Machine Learning</code>
+                <code>Natural Language Processing</code>
+                <code>Transformers</code>
+                <code>Long Contexts</code>
+                <code>Optimization</code>
+            </div>
+        </section>
+
+        <!-- Research Card 3 -->
+        <section class="research-card">
+            <div class="research-header">
+                <h2>TEXT-to-Image Generation for Circuit Design</h2>
+                <p class="authors"><strong>Authors:</strong> Redwan Ahmed Utsab, Nafi Sadman Khan, Mr. Nahid Hossain</p>
+                <p class="venue"><i class="fa-solid fa-university"></i> Not yet published</p>
+            </div>
+
+            <div class="research-image">
+                <img src="images/experience/uiu.png" alt="Circuit Design AI">
+            </div>
+
+            <p class="abstract">
+                <strong>Abstract:</strong> This study presents an AI-driven framework capable of generating circuit
+                diagrams from textual descriptions. The system integrates Natural Language Processing (NLP) for text
+                interpretation and Convolutional Neural Networks (CNNs) for image generation. By translating functional
+                specifications into visual circuit representations, the framework aims to accelerate prototyping and
+                reduce manual errors in electrical design. Preliminary results show accurate mapping from textual input
+                to schematic diagrams, enabling rapid conceptualization and testing.
+            </p>
+            <div class="research-meta">
+                <a href="#"><i class="fa-solid fa-file-pdf"></i> View Paper (PDF)</a>
+                <a href="#"><i class="fa-solid fa-link"></i> DOI: N/A</a>
+            </div>
+            <div class="tags">
+                <code>AI</code>
+                <code>Circuit Design</code>
+                <code>Machine Learning</code>
+                <code>NLP</code>
+                <code>Image Generation</code>
+            </div>
+        </section>
+
+    </article>
+</main>
+
+<script>
+    const toggle = document.getElementById('menu-toggle');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+
+    function closeDrawer() {
+        drawer.classList.remove('open');
+        overlay.classList.remove('active');
+        toggle.classList.remove('active');
+    }
+
+    toggle.addEventListener('click', () => {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('active');
+        toggle.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', closeDrawer);
+</script>
+
+</body>
+</html>
